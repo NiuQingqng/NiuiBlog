@@ -61,7 +61,7 @@ public class DaoTest {
 
     @Test
     public void articleDaoTestFind(){
-        List<Article> articles = articleDao.findArticleByUserId(10001);
+        List<Article> articles = articleDao.findAll();
         for (Article article : articles){
             System.out.println(article);
         }
@@ -70,18 +70,20 @@ public class DaoTest {
     public void articleDaoTestSave(){
         Article articl = new Article();
         articl.setArticleUserId(10001);
-        articl.setArticleCategoryId(100);
-        articl.setArticleTitle("第二篇");
-        articl.setArticleContent("第二篇第二篇第二篇第二篇第二篇第二篇第二篇");
-        articleDao.saveArticle(articl);
+        articl.setArticleCategoryId(101);
+        articl.setArticleTitle("第五篇");
+        articl.setArticleContent("第五篇第五篇第五篇第五篇第五篇第五篇第五篇");
+        int i = articleDao.saveArticle(articl);
+        System.out.println("=================="+i);
     }
     @Test
     public void articleDaoTestUpdate(){
         Article articl = new Article();
-        articl.setArticleId(100006);
+        articl.setArticleId(100011);
         articl.setArticleTitle("第san篇");
         articl.setArticleContent("篇第三篇第三篇第三篇第三篇第三篇");
-        articleDao.updateArticle(articl);
+        int i = articleDao.updateArticle(articl);
+        System.out.println("=================="+i);
     }
     @Test
     public void articleDaoTestDelete(){
@@ -102,7 +104,7 @@ public class DaoTest {
     @Test
     public void userDaoTestSave(){
         User user =new User();
-        user.setUserName("zhangsan");
+        user.setUserName("zhangsana");
         user.setUserPassword("123a");
         user.setUserNickname("张三");
         userDao.saveUser(user);

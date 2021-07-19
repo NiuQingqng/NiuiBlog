@@ -1,22 +1,25 @@
-package ltd.niui.dao;
+package ltd.niui.service;
 
 import ltd.niui.entity.Comment;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface ICommentDao {
+/**
+ * @author ：Niuniu
+ * @date ：2021/7/18 17:23
+ * @description：TODO
+ */
+public interface ICommentService {
     //查找所有
     List<Comment> findAll();
     //根据id查找
     Comment findCommentById(Integer id);
     //保存
-    int saveComment(Comment comment);
+    void saveComment(Comment comment);
     //修改
-    int updateComment(Comment comment);
+    void updateComment(Comment comment);
     //删除
-    int deleteComment(Integer id);
+    void deleteComment(Integer id);
     //根据id查找
     List<Comment> findCommentByArticleId(Integer aid);
 }

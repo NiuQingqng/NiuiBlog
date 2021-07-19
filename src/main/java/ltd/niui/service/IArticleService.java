@@ -1,23 +1,26 @@
-package ltd.niui.dao;
+package ltd.niui.service;
 
 import ltd.niui.entity.Article;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface IArticleDao {
+/**
+ * @author ：Niuniu
+ * @date ：2021/7/18 17:22
+ * @description：TODO
+ */
+public interface IArticleService {
     //查找所有
     List<Article> findAll();
     //根据id查找
     /**/
     Article findArticleById(Integer id);
     //保存
-    int saveArticle(Article article);
+    void saveArticle(Article article);
     //修改
-    int updateArticle(Article article);
+    void updateArticle(Article article);
     //删除
-    int deleteArticle(Integer id);
+    void deleteArticle(Integer id);
     //根据文章标题，模糊查找文章
     List<Article> findArticleByTitle(String title);
     //根据用户id查找,查找用户发表过的文章

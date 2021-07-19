@@ -21,7 +21,7 @@
         <result column="article_thumbnail" property="articleThumbnail" jdbcType="VARCHAR"/>
     </resultMap>
     <select id="findAll" resultMap="ArticleMap">
-        select * from article
+        select * from article order by article_update_time desc
     </select>
     <select id="findArticleById" parameterType="Integer" resultMap="ArticleMap">
         select * from article where article_id = #{articleId}
@@ -35,8 +35,9 @@
          <if test="articleLikeCount != null">article_like_count,</if>
          <if test="articleIsComment != null">article_is_comment,</if>
          <if test="articleStatus != null">article_status,</if>
-         article_order,
-         article_create_time, article_update_time,
+         <if test="articleOrder != null">article_order,</if>
+         <if test="articleCreateTime != null">article_create_time,</if>
+         <if test="articleUpdateTime != null">article_update_time,</if>
          article_summary,article_thumbnail)
         values
         (#{articleUserId}, #{articleCategoryId},
@@ -46,8 +47,9 @@
          <if test="articleLikeCount != null">#{articleLikeCount},</if>
          <if test="articleIsComment != null">#{articleIsComment},</if>
          <if test="articleStatus != null">#{articleStatus},</if>
-         #{articleOrder},
-         #{articleCreateTime}, #{articleUpdateTime},
+         <if test="articleOrder != null">#{articleOrder},</if>
+         <if test="articleCreateTime != null">#{articleCreateTime},</if>
+         <if test="articleUpdateTime != null">#{articleUpdateTime},</if>
          #{articleSummary}, #{articleThumbnail})
     </insert>
     <update id="updateArticle" parameterType="Article">

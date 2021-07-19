@@ -25,19 +25,26 @@
     <select id="findUserById" parameterType="Integer" resultMap="UserMap">
         select * from user where user_id = #{userId}
     </select>
+    <select id="findUserByUsername" parameterType="String" resultMap="UserMap">
+        select * from user where user_name = #{userName}
+    </select>
 
     <insert id="saveUser" parameterType="User">
         insert into user
         (user_name, user_pass,user_nickname,
         user_sex, user_birthday, user_city,
         user_email, user_avatar, user_describe,
-        user_last_login_ip, user_register_time, user_last_login_time
+        user_last_login_ip
+        <if test="userRegisterTime != null">,user_register_time</if>
+        <if test="userLastLoginTime != null">,user_last_login_time</if>
         <if test="userRole != null">,user_role</if>)
         values
         (#{userName}, #{userPassword}, #{userNickname},
         #{userSex}, #{userBirthday},#{userCity},
         #{userEmail}, #{userAvatar}, #{userDescribe},
-        #{userLastLoginIp}, #{userRegisterTime},#{userLastLoginTime}
+        #{userLastLoginIp}
+        <if test="userRegisterTime != null">,#{userRegisterTime}</if>
+        <if test="userLastLoginTime != null">,#{userLastLoginTime}</if>
         <if test="userRole != null">,#{userRole}</if>)
     </insert>
 

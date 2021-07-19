@@ -35,13 +35,15 @@
         insert into comment
         (comment_article_id,comment_user_id,
         <if test="commentPid != null">comment_pid,</if>
-        comment_content, comment_create_time
+        comment_content
+        <if test="commentCreateTime != null">,comment_create_time</if>
         <if test="commentLikeCount != null">,comment_like_count</if>
         )
         values
         (#{commentArticleId}, #{commentUserId},
         <if test="commentPid != null">#{commentPid},</if>
-         #{commentContent}, #{commentCreateTime}
+         #{commentContent}
+        <if test="commentCreateTime != null">,#{commentCreateTime}</if>
         <if test="commentLikeCount != null">,#{commentLikeCount}</if>
         )
     </insert>

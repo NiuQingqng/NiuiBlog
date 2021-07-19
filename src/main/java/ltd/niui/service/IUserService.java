@@ -1,12 +1,15 @@
-package ltd.niui.dao;
+package ltd.niui.service;
 
 import ltd.niui.entity.User;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-public interface IUserDao {
+/**
+ * @author ：Niuniu
+ * @date ：2021/7/18 17:23
+ * @description：TODO
+ */
+public interface IUserService {
     //查找所有
     List<User> findAll();
     //根据id查找
@@ -14,9 +17,9 @@ public interface IUserDao {
     //根据用户名查找
     User findUserByUsername(String username);
     //保存
-    int saveUser(User user);
+    void saveUser(User user);
     //修改
-    int updateUser(User user);
+    void updateUser(User user);
     //删除
-    int deleteUser(Integer id);
+    void deleteUser(Integer id);
 }
