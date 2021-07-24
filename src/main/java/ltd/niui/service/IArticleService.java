@@ -16,11 +16,11 @@ public interface IArticleService {
     /**/
     Article findArticleById(Integer id);
     //保存
-    void saveArticle(Article article);
+    int saveArticle(Article article);
     //修改
-    void updateArticle(Article article);
+    int updateArticle(Article article);
     //删除
-    void deleteArticle(Integer id);
+    int deleteArticle(Integer id);
     //根据文章标题，模糊查找文章
     List<Article> findArticleByTitle(String title);
     //根据用户id查找,查找用户发表过的文章

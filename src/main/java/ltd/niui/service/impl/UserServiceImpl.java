@@ -39,6 +39,11 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
+    public User findUserByUsernameAndPassword(User user) {
+        return userDao.findUserByUsernameAndPassword(user);
+    }
+
+    @Override
     public void saveUser(User user) {
         //判断用户名是否重复
         if(userDao.findUserByUsername(user.getUserName())==null){

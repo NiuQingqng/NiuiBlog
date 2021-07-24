@@ -28,7 +28,9 @@
     <select id="findUserByUsername" parameterType="String" resultMap="UserMap">
         select * from user where user_name = #{userName}
     </select>
-
+    <select id="findUserByUsernameAndPassword" parameterType="User" resultMap="UserMap">
+        select * from user where user_name = #{userName} and user_pass = #{userPassword}
+    </select>
     <insert id="saveUser" parameterType="User">
         insert into user
         (user_name, user_pass,user_nickname,

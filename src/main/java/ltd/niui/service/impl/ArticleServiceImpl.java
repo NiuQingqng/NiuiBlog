@@ -1,8 +1,11 @@
 package ltd.niui.service.impl;
 
 import ltd.niui.dao.IArticleDao;
+import ltd.niui.dao.ICommentDao;
 import ltd.niui.entity.Article;
+import ltd.niui.entity.Comment;
 import ltd.niui.service.IArticleService;
+import ltd.niui.service.ICommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ public class ArticleServiceImpl implements IArticleService {
 
     @Autowired
     IArticleDao articleDao;
+    @Autowired
+    ICommentService commentService;
 
     @Override
     public List<Article> findAll() {
@@ -29,26 +34,37 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public Article findArticleById(Integer id) {
         Article article = articleDao.findArticleById(id);
+        //浏览数量加一
+        Article newArticle = new Article();
+        newArticle.setArticleId(article.getArticleId());
+        newArticle.setArticleViewCount(article.getArticleViewCount()+1);
+        this.updateArticle(newArticle);
         return article;
     }
 
     @Override
-    public void saveArticle(Article article) {
+    public int saveArticle(Article article) {
         article.setArticleCreateTime(new Date());
         article.setArticleUpdateTime(new Date());
-        articleDao.saveArticle(article);
+        if(article.getArticleSummary()==null&&article.getArticleContent().length() >100)
+            article.setArticleSummary(article.getArticleContent().substring(0,100));
+        int i = articleDao.saveArticle(article);
+        return i;
     }
 
     /*
     * 根据id判断，文章存在才可以修改
     * */
     @Override
-    public void updateArticle(Article article) {
+    public int updateArticle(Article article) {
         if(articleDao.findArticleById(article.getArticleId())!=null){
-            article.setArticleUpdateTime(new Date());
-            articleDao.updateArticle(article);
+            //标题或内容或摘要不为空时才算修改，才更新修改时间，避免评论数和浏览数改变导致更新时间出错
+            if(article.getArticleTitle()!=null||article.getArticleSummary()!=null||article.getArticleContent()!=null)
+                article.setArticleUpdateTime(new Date());
+            int i = articleDao.updateArticle(article);
+            return i;
         }else {
-
+            return 0;
         }
 
     }
@@ -56,14 +72,27 @@ public class ArticleServiceImpl implements IArticleService {
      * 根据id判断，文章存在才执行删除
      * */
     @Override
-    public void deleteArticle(Integer id) {
-        if(articleDao.findArticleById(id)==null){
+    public int deleteArticle(Integer id) {
+        int i = 0;//删除的结果
+        if(articleDao.findArticleById(id)!=null){
             //需先删除评论
-
-            articleDao.deleteArticle(id);
-        }else {
+            boolean delCommentResult = true;
+            List<Comment> comments = commentService.findCommentByArticleId(id);
+            for (Comment comment : comments){
+                if(commentService.deleteComment(comment.getCommentId())<=0) {
+                    delCommentResult = false;
+                    break;
+                }
+            }
+            if (delCommentResult){
+                i = articleDao.deleteArticle(id);
+            }
+            System.out.println(delCommentResult);
+        } else {
 
         }
+        System.out.println(i);
+        return i;
     }
 
     @Override

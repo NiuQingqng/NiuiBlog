@@ -32,9 +32,9 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void saveComment(Comment comment) {
+    public int saveComment(Comment comment) {
         comment.setCommentCreateTime(new Date());
-        commentDao.saveComment(comment);
+        return commentDao.saveComment(comment);
     }
 
     @Override
@@ -47,11 +47,11 @@ public class CommentServiceImpl implements ICommentService {
     }
 
     @Override
-    public void deleteComment(Integer id) {
+    public int deleteComment(Integer id) {
         if(commentDao.findCommentById(id)!=null){
-            commentDao.deleteComment(id);
+            return commentDao.deleteComment(id);
         } else {
-
+            return 0;
         }
     }
 

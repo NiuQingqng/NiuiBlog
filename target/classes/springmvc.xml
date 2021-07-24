@@ -21,6 +21,8 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
+    <!-- 静态资源映射 -->
+    <mvc:resources mapping="/img/**" location="/resource/assets/img/"></mvc:resources>
     <!--开启SpringMVC注解的支持-->
     <mvc:annotation-driven/>
 </beans>

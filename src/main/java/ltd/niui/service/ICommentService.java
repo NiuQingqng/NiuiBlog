@@ -15,11 +15,11 @@ public interface ICommentService {
     //根据id查找
     Comment findCommentById(Integer id);
     //保存
-    void saveComment(Comment comment);
+    int saveComment(Comment comment);
     //修改
     void updateComment(Comment comment);
     //删除
-    void deleteComment(Integer id);
+    int deleteComment(Integer id);
     //根据id查找
     List<Comment> findCommentByArticleId(Integer aid);
 }

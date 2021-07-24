@@ -81,9 +81,9 @@
         select * from article where article_title like #{title}
     </select>
     <select id="findArticleByUserId" parameterType="Integer" resultMap="ArticleMap">
-        select * from article where article_user_id = #{aId}
+        select * from article where article_user_id = #{aId} order by article_update_time desc
     </select>
     <select id="findArticleByCategoryId" parameterType="Integer" resultMap="ArticleMap">
-        select * from article where article_category_id = #{cId}
+        select * from article where article_category_id = #{cId} order by article_update_time desc
     </select>
 </mapper>

@@ -16,6 +16,8 @@ public interface IUserService {
     User findUserById(Integer id);
     //根据用户名查找
     User findUserByUsername(String username);
+    //根据用户名和密码查询
+    User findUserByUsernameAndPassword(User user);
     //保存
     void saveUser(User user);
     //修改
