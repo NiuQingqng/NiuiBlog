@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * @author ：Niuniu
  * @date ：2021/7/19 11:44
- * @description：TODO
+ * @description：处理文章的相关请求
  */
 @Controller
 @RequestMapping("article")
@@ -35,6 +35,11 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping("findall")
+    /**
+     * @description:
+     * @param
+     * @return java.util.List<ltd.niui.entity.Article> 全部文章，不包括用户信息和评论
+     */
     public List<Article> finAll(HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         List<Article> articles = articleService.findAll();
@@ -43,6 +48,12 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping("findonedetail")
+    /**
+     * @description:
+     * @param articleId 文章id
+     * @param response
+     * @return ltd.niui.dto.ArticleDetail  返回文章信息，包括用户信息和评论
+     */
     public ArticleDetail findOneDetail(int articleId,HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         Article article = articleService.findArticleById(articleId);
@@ -57,15 +68,26 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping("savearticle")
+    /**
+     * @description: 保存文章
+     * @param article 文章的信息
+     * @param response
+     * @return int  返回保存结果，是数据库返回的影响行数 1成功 0失败
+     */
     public int saveArticle(Article article,HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
-        System.out.println(article.getArticleContent());
         int i = articleService.saveArticle(article);
         return i;
     }
 
     @ResponseBody
     @RequestMapping("updatearticle")
+    /**
+     * @description: 修改文章信息
+     * @param article 文章的信息
+     * @param response
+     * @return int 返回修改结果，是数据库返回的影响行数 1成功 0失败
+     */
     public int updateArticle(Article article,HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         int i = articleService.updateArticle(article);
@@ -74,6 +96,10 @@ public class ArticleController {
 
     @ResponseBody
     @RequestMapping("delarticle")
+    /*
+    * 删除文章，通过文章id
+    * 返回结果 1成功 0失败
+    * */
     public int delArticle(int articleId,HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         int i = articleService.deleteArticle(articleId);

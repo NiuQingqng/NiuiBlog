@@ -19,12 +19,6 @@
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
     </context:component-scan>
 
-    <!--Spring整合MyBatis框架
-            配置完成后SqlMapConfig.xml可以删除
-        配置SqlSessionFactory工厂，
-        有工厂可以自动创建SqlSession对象，
-        通过SqlSession以及AccountDao接口所在包可以自动创建Dao对象
-    -->
     <!--配置连接池-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver"/>
@@ -44,4 +38,24 @@
         <property name="basePackage" value="ltd.niui.dao"/>
     </bean>
 
+    <!-- 配置事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 配置事务的通知-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" read-only="false"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"></tx:method>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 配置aop-->
+    <aop:config>
+        <!-- 配置切入点表达式-->
+        <aop:pointcut id="pt1" expression="execution(* ltd.niui.service.impl.*.*(..))"></aop:pointcut>
+        <!--建立切入点表达式和事务通知的对应关系 -->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="pt1"></aop:advisor>
+    </aop:config>
 </beans>

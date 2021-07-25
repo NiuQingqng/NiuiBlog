@@ -46,8 +46,14 @@ public class ArticleServiceImpl implements IArticleService {
     public int saveArticle(Article article) {
         article.setArticleCreateTime(new Date());
         article.setArticleUpdateTime(new Date());
-        if(article.getArticleSummary()==null&&article.getArticleContent().length() >100)
-            article.setArticleSummary(article.getArticleContent().substring(0,100));
+        //摘要为空的话就截取文章的前100个字作为摘要,如果文章不够100字就设置全文
+        if(article.getArticleSummary()==null) {
+            if(article.getArticleContent().length() >100) {
+                article.setArticleSummary(article.getArticleContent().substring(0, 100));
+            }else {
+                article.setArticleSummary(article.getArticleContent());
+            }
+        }
         int i = articleDao.saveArticle(article);
         return i;
     }
@@ -58,7 +64,7 @@ public class ArticleServiceImpl implements IArticleService {
     @Override
     public int updateArticle(Article article) {
         if(articleDao.findArticleById(article.getArticleId())!=null){
-            //标题或内容或摘要不为空时才算修改，才更新修改时间，避免评论数和浏览数改变导致更新时间出错
+            //标题或内容或摘要不为空时才算修改，才修改更新时间，避免评论数和浏览数改变导致更新时间出错
             if(article.getArticleTitle()!=null||article.getArticleSummary()!=null||article.getArticleContent()!=null)
                 article.setArticleUpdateTime(new Date());
             int i = articleDao.updateArticle(article);
@@ -84,14 +90,13 @@ public class ArticleServiceImpl implements IArticleService {
                     break;
                 }
             }
+            //判断删除结果，评论全部删除才能删除文章
             if (delCommentResult){
                 i = articleDao.deleteArticle(id);
             }
-            System.out.println(delCommentResult);
         } else {
 
         }
-        System.out.println(i);
         return i;
     }
 

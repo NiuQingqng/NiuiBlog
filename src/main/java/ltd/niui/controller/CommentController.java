@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * @author ：Niuniu
  * @date ：2021/7/21 20:14
- * @description：TODO
+ * @description：处理评论的相关请求
  */
 @Controller
 @RequestMapping("comment")
@@ -25,6 +25,12 @@ public class CommentController {
     private IArticleService articleService;
     @ResponseBody
     @RequestMapping("sendcomment")
+    /**
+     * @description: 保存评论，并且更改对应文章的评论数
+     * @param comment
+     * @param response
+     * @return int 返回结果 1成功 0失败
+     */
     public int sendComment(Comment comment, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         int i = commentService.saveComment(comment);
@@ -37,6 +43,12 @@ public class CommentController {
     }
     @ResponseBody
     @RequestMapping("delcomment")
+    /**
+     * @description: 删除评论，并且更改对应文章的评论数
+     * @param commentId
+     * @param response
+     * @return int 返回结果 1成功 0失败
+     */
     public int delComment(int commentId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         Article article = new Article();

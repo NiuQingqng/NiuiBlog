@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author ：Niuniu
  * @date ：2021/7/21 10:04
- * @description：TODO
+ * @description：处理用户的相关请求
  */
 @Controller
 @RequestMapping("user")
@@ -31,6 +31,12 @@ public class UserController {
 
     @ResponseBody
     @RequestMapping("findonedetail")
+    /**
+     * @description: 返回用户和此用户所有的文章
+     * @param userId
+     * @param response
+     * @return ltd.niui.dto.UserDetail
+     */
     public UserDetail findOneDetail(int userId, HttpServletResponse response){
         response.setHeader("Access-Control-Allow-Origin", "*");
         User user = userService.findUserById(userId);
